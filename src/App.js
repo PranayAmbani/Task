@@ -1,25 +1,38 @@
-import logo from './logo.svg';
-import './App.css';
+import React from 'react';
+import { BrowserRouter as Router, Routes, Route, Navigate } from 'react-router-dom';
+import Login from './components/Login';
+import Register from './components/Register';
+import ManufacturerDashboard from './components/ManufacturerDashboard';
+import TransporterDashboard from './components/TransporterDashboard';
+import ManufacturersInputForm from './components/ManufacturersInputForm';
+import TransportersInputForm from './components/TransportersInputForm';
 
-function App() {
+
+
+
+  const isAuthenticated = !!localStorage.getItem('token');
+  const userRole = localStorage.getItem('userType');
+
+  
+  
+
+const App = () => {
   return (
-    <div className="App">
-      <header className="App-header">
-        <img src={logo} className="App-logo" alt="logo" />
-        <p>
-          Edit <code>src/App.js</code> and save to reload.
-        </p>
-        <a
-          className="App-link"
-          href="https://reactjs.org"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          Learn React
-        </a>
-      </header>
-    </div>
+    <Router>
+      <Routes>
+        <Route path="/" element={<Login />} />
+        <Route path="/register" element={<Register />} />
+        isAuthenticated && userRole === "Manufacturer" ? (
+    <Route path="/manufacturer" element={<ManufacturerDashboard />} />)
+    isAuthenticated && userRole === "Manufacturer" ? (
+    <Route path="/manufacturer/inputs" element={<ManufacturersInputForm />} />)
+    isAuthenticated && userRole === "Transporter" ? (
+    <Route path="/transporter" element={<TransporterDashboard />} />)
+    isAuthenticated && userRole === "Transporter" ? (
+    <Route path="/transporter/inputs" element={<TransportersInputForm />} />)
+      </Routes>
+    </Router>
   );
-}
+};
 
 export default App;
